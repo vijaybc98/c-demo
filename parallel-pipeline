@@ -26,7 +26,69 @@ pipeline {
                              sh 'echo "this is a testing stage"'
                              }
                         }
-	                	}
-               }
-	       }
+	             }
+                  }
+	      }
    	}
+	
+with script inside pipeline
+
+pipeline {
+	agent none
+	 stages {
+	    stage('MAIN') {
+	        parallel {
+                   stage('build') {
+		    agent { label 'master' }
+		    steps { 
+		      git branch: 'main', url: 'https://github.com/vijaybc98/c-project.git'
+		       }
+		   }
+ 	     stage('deploy') {
+	         agent { label 'master' }
+	         steps {
+		    sh '''
+		      #!/bin/bash
+		       pwd
+		       ls
+		       cd
+                     echo "this is a deploy stage"
+	               }
+	           }
+             stage('testing') {
+	          agent { label 'slave1' }
+                  steps {
+                       sh 'echo "this is a testing stage"'
+                       }
+                   }
+		}
+              }
+	   }
+	}
+	
+pipeline for multiple agents	
+	pipeline {
+	agent none
+	 stages {
+            stage('build') {
+	        agent any
+		steps { 
+		   git branch: 'main', url: 'https://github.com/vijaybc98/c-project.git'
+		       }
+		   }
+ 	     stage('deploy') {
+	         agent { label 'master' }
+	         steps {
+                     echo "this is a deploy stage"
+	               }
+	           }
+             stage('testing') {
+	          agent { label 'slave1' }
+                  steps {
+                       sh 'echo "this is a testing stage"'
+                       }
+                   }
+		}
+              }
+	   
+	
