@@ -20,8 +20,34 @@ pipeline {
                   steps {
                        sh 'echo "this is a testing stage"'
                        }
-                   }
-            		}
+                    }
+                }
               }
-	        }
+	   }
      	}
+
+PP- agent any
+pipeline {
+	agent any
+	 stages {
+	    stage('MAIN') {
+	        parallel {
+                   stage('build') {
+		    steps { 
+		      git branch: 'main', url: 'https://github.com/vijaybc98/c-project.git'
+		       }
+		   }
+ 	     stage('deploy') {
+	         steps {
+                     echo "this is a deploy stage"
+	               }
+	           }
+             stage('testing') {
+                  steps {
+                       sh 'echo "this is a testing stage"'
+                       }
+                   }
+		}
+              }
+	   }
+	}
