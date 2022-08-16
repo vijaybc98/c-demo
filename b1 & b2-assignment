@@ -1,0 +1,53 @@
+( b1-assignment )
+
+pipeline {
+    agent any
+    stages {
+        stage ('BUILD') {
+            when {
+                branch 'master'
+            }
+            steps {
+                echo "this is build stage"   
+            }
+        }
+        stage ('DEPLOY') {
+            when {
+                branch 'master'
+            }
+            steps {
+                sh'''
+                echo "this is deploy stage"
+                '''
+            }
+        }     
+    }  
+  }
+  
+ ( b2-assignment )
+ 
+ pipeline {
+    agent any
+    stages {
+            stage('ALL') {
+                parallel {
+                     stage('BUILD') {
+                        when {
+                         branch 'master'
+                        }
+                        steps {
+                           echo "this is build stage"
+                         }
+                    }
+                    stage('DEPLOY') {
+                        when {
+                         branch 'master'
+                        }
+                        steps { 
+                          echo "this is deploy stage"
+                      }
+                    }
+                }     
+            }
+         }
+      }
