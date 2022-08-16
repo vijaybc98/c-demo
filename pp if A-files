@@ -1,0 +1,36 @@
+pipeline {
+	agent none
+	stages {
+            stage('stage_A') {
+		 agent { label 'master' }
+		  steps {
+		      catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+		       echo "this is stage_A"
+		       sh '''
+		        #!/bin/bash
+		        pwd  
+			ls
+		        exit 1
+			'''
+		      }
+		  }
+             }
+ 	     stage('stage_B') {
+	         agent { label 'master' }
+	         steps {
+                     echo "this is stage_B" 
+	          }
+	      }
+             stage('stage_C') {
+	         agent { label 'slave1' }
+	         steps {
+                     echo "this is stage_C" 
+	          }
+	      }
+	 }
+      }
+   
+
+	
+	
+                 
