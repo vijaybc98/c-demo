@@ -1,0 +1,11 @@
+FROM ubuntu
+RUN mkdir tomcat45
+ADD  https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.65/bin/apache-tomcat-9.0.65.tar.gz tomcat45
+WORKDIR /tomcat45
+RUN tar -xzf apache-tomcat-9.0.65.tar.gz
+RUN apt-get update
+RUN apt-get -y install default-jdk
+RUN java -version
+EXPOSE 8090
+CMD  tomcat/bin/./startup.sh
+
